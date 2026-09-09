@@ -1,10 +1,16 @@
-import Welcome from "./components/welcome"
+import './App.css';
+import Navbar from "./components/Navbar";
+import Welcome from "./components/Welcome";
+import Dashboard from "./components/Dashboard";
+function App() {
+  return (
+    <div>
+      <Navbar />
+      <Welcome />
+      <Dashboard />
 
-function App(){
-    return(
-        <div>
-            <Welcome />
-        </div>
-    );
+    </div>
+  );
 }
+
 export default App;

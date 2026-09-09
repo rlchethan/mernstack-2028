@@ -1,7 +1,9 @@
-function welcome() {
+function Welcome() {
     return (
-        <h1>Welcome to the Student Task Management Portal</h1>
+        <section className="welcome">
+            <h1>Welcome back, Student!</h1>
+        </section>
     );
 }
 
-export default welcome;
+export default Welcome;
