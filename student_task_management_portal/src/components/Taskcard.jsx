@@ -1,13 +1,13 @@
-function Taskcard({ title, description, status }) {
+function taskcard({ title, description, status, link }) {
     return (
-        <div className="task-card">
+        <a href={link} className="task-card">
             <div>
                 <h3>{title}</h3>
                 <p>{description}</p>
                 <p>Status: {status}</p>
             </div>
-        </div>
+        </a>
     );
 }
 
-export default Taskcard;
+export default taskcard;
