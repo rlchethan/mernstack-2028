@@ -1,29 +1,90 @@
 import { Link } from "react-router-dom";
 
-function TaskCard(props) {
-  const normalizedStatus = props.status.toLowerCase().replace(/\s+/g, "-");
+function TaskCard({
+    id,
+    title,
+    description,
+    status,
+    onToggle,
+    onDelete
+}) {
 
-  return (
-    <div className="task-card">
-      <div className="task-info">
-        <h3>{props.title}</h3>
-        <p>{props.description}</p>
-        <span className={`task-status ${normalizedStatus}`}>{props.status}</span>
-      </div>
+    return (
+        <div className="task-card">
 
-      <div className="task-actions">
-        <button className="change-status-btn" onClick={props.onToggle}>
-          Change Status
-        </button>
-        <button className="cancel-btn" onClick={props.onDelete}>
-          Delete
-        </button>
-        <Link className="view-all-btn" to={`/tasks/${props.id}`}>
-          View Details
-        </Link>
-      </div>
+            {/* Left side */}
+            <div className="task-card-left">
+
+                <div className="task-check">
+
+                    {status === "Completed" && "✓"}
+
+                </div>
+
+
+                <div className="task-card-content">
+
+                    <span className="task-id">
+                        TASK #{id}
+                    </span>
+
+                    <h3>
+                        {title}
+                    </h3>
+
+                    <p>
+                        {description}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {/* Status */}
+            <span
+                className={`status-badge ${
+                    status
+                        .toLowerCase()
+                        .replace(" ", "-")
+                }`}
+            >
+                {status}
+            </span>
+
+
+            {/* Buttons */}
+            <div className="task-actions">
+
+                <button
+                    type="button"
+                    className="change-status-btn"
+                    onClick={onToggle}
+                >
+                    Change Status
+                </button>
+
+
+                <Link
+                    to={`/tasks/${id}`}
+                    className="details-btn"
+                >
+                    View Details →
+                </Link>
+
+
+                <button
+                    type="button"
+                    className="delete-task-btn"
+                    onClick={onDelete}
+                >
+                    Delete
+                </button>
+
+            </div>
+
     </div>
-  );
+    );
 }
 
 export default TaskCard;

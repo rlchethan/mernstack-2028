@@ -1,71 +1,118 @@
-import StatCard from "./StatCard";
-import TaskCard from "./TaskCard";
-import AddTask from "./AddTask";
+function Dashboard({ tasks }) {
 
-function Dashboard(props) {
-  const total = props.tasks.length;
-  const completed = props.tasks.filter((task) => task.status === "Completed").length;
-  const pending = props.tasks.filter((task) => task.status === "Pending").length;
+    const totalTasks = tasks.length;
 
-  function toggleTask(id) {
-    props.setTasks(
-      props.tasks.map((task) => {
-        if (task.id === id) {
-          return {
-            ...task,
-            status: task.status === "Completed" ? "Pending" : "Completed",
-          };
-        }
-        return task;
-      })
+    const pendingTasks = tasks.filter(
+        (task) => task.status === "Pending"
+    ).length;
+
+    const inProgressTasks = tasks.filter(
+        (task) => task.status === "In Progress"
+    ).length;
+
+    const completedTasks = tasks.filter(
+        (task) => task.status === "Completed"
+    ).length;
+
+    return (
+        <div className="dashboard-page">
+
+            {/* Dashboard Heading */}
+            <div className="dashboard-header">
+
+                <p className="page-label">
+                    DASHBOARD
+                </p>
+
+                <h1>
+                    Task Dashboard
+                </h1>
+
+                <p>
+                    Track your task progress at a glance.
+                </p>
+
+            </div>
+
+
+            {/* Statistics */}
+            <div className="dashboard-stats">
+
+                {/* Total */}
+                <div className="stat-card">
+
+                    <div className="stat-icon">
+                        📋
+                    </div>
+
+                    <h3>
+                        Total Tasks
+                    </h3>
+
+                    <h2>
+                        {totalTasks}
+                    </h2>
+
+                </div>
+
+
+                {/* Pending */}
+                <div className="stat-card">
+
+                    <div className="stat-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Pending
+                    </h3>
+
+                    <h2>
+                        {pendingTasks}
+                    </h2>
+
+                </div>
+
+
+                {/* In Progress */}
+                <div className="stat-card">
+
+                    <div className="stat-icon">
+                        🔄
+                    </div>
+
+                    <h3>
+                        In Progress
+                    </h3>
+
+                    <h2>
+                        {inProgressTasks}
+                    </h2>
+
+                </div>
+
+
+                {/* Completed */}
+                <div className="stat-card">
+
+                    <div className="stat-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Completed
+                    </h3>
+
+                    <h2>
+                        {completedTasks}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
     );
-  }
-
-  function addTask(newTask) {
-    props.setTasks([...props.tasks, newTask]);
-  }
-
-  function deleteTask(id) {
-    props.setTasks(props.tasks.filter((task) => task.id !== id));
-  }
-
-  return (
-    <main className="dashboard">
-      <section className="dashboard-header">
-        <h1>Student Task Manager</h1>
-        <p>Plan your weekly learning goals and track progress.</p>
-      </section>
-
-      <section className="stats-container">
-        <StatCard title="Total Tasks" value={String(total)} />
-        <StatCard title="Completed" value={String(completed)} />
-        <StatCard title="Pending" value={String(pending)} />
-      </section>
-
-      <AddTask onAddTask={addTask} onClose={() => {}} />
-
-      <section className="task-section">
-        <div className="section-header">
-          <h2>Recent Tasks</h2>
-          <p>Latest learning activity</p>
-        </div>
-
-        <div className="task-container">
-          {props.tasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              id={task.id}
-              title={task.title}
-              description={task.description}
-              status={task.status}
-              onToggle={() => toggleTask(task.id)}
-              onDelete={() => deleteTask(task.id)}
-            />
-          ))}
-        </div>
-      </section>
-    </main>
-  );
 }
 
 export default Dashboard;
