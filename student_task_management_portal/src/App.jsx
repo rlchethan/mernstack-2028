@@ -1,4 +1,5 @@
 import "./App.css";
+
 import Navbar from "./components/navbar";
 import Dashboard from "./components/dashboard";
 import Tasks from "./components/task";
@@ -26,18 +27,31 @@ function App() {
     return (
         <div>
             <Routes>
-                {/* Login page opens first */}
-                <Route path="/" element={<Navigate to="/login" />} />
+                {/* Open login page first */}
+                <Route
+                    path="/"
+                    element={<Navigate to="/login" />}
+                />
 
-                <Route path="/login" element={<Login />} />
+                {/* Login page */}
+                <Route
+                    path="/login"
+                    element={<Login />}
+                />
 
-                <Route path="/register" element={<Register />} />
+                {/* Register page */}
+                <Route
+                    path="/register"
+                    element={<Register />}
+                />
 
+                {/* Dashboard page */}
                 <Route
                     path="/dashboard"
                     element={
                         <>
                             <Navbar />
+
                             <Dashboard
                                 tasks={tasks}
                                 setTasks={setTasks}
@@ -46,22 +60,30 @@ function App() {
                     }
                 />
 
+                {/* Tasks page */}
                 <Route
                     path="/tasks"
                     element={
                         <>
                             <Navbar />
-                            <Tasks tasks={tasks} />
+
+                            <Tasks
+                                tasks={tasks}
+                            />
                         </>
                     }
                 />
 
+                {/* Task details page */}
                 <Route
                     path="/tasks/:id"
                     element={
                         <>
                             <Navbar />
-                            <TaskDetails tasks={tasks} />
+
+                            <TaskDetails
+                                tasks={tasks}
+                            />
                         </>
                     }
                 />
