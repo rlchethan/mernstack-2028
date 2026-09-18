@@ -1,132 +1,38 @@
-import { Link, useParams } from "react-router-dom";
-
-function TaskDetails({ tasks }) {
-
-    const { id } = useParams();
-
-    const task = tasks.find(
-        (task) => String(task.id) === String(id)
-    );
-
-
-    // If task does not exist
-    if (!task) {
-
-        return (
-            <div className="task-details-page">
-
-                <div className="details-card">
-
-                    <h1>
-                        Task Not Found
-                    </h1>
-
-                    <p>
-                        The task you are looking for does not exist.
-                    </p>
-
-                    <Link
-                        to="/tasks"
-                        className="back-btn"
-                    >
-                        ← Back to Tasks
-                    </Link>
-
-                </div>
-
-            </div>
-        );
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+function TaskDetails(props){
+    const {id} = useParams();
+    const [task, setTasks] = useState(null);
+    const [loading, setLoading] = useState(true);
+    useEffect(()=>{
+        fetch(`http://localhost:5000/api/tasks/${id}`)
+        .then((response) => {
+            if(!response.ok){
+                throw new Error ("Task Not Found");
+            }
+            return response.json();
+        })
+        .then((data)=>{
+            setTasks(data);
+        }).catch((error) => {
+            console.log(error);
+        }).finally(()=>{
+            setLoading(false);
+        })
+    },[id]);
+    if(loading){
+        return <h2>Loading....</h2>
     }
-
-
+    if(!task){
+        return <h2> Task Not Found!</h2>
+    }
     return (
-        <div className="task-details-page">
-
-            {/* Back button */}
-            <Link
-                to="/tasks"
-                className="back-btn"
-            >
-                ← Back to Tasks
-            </Link>
-
-
-            {/* Details Card */}
-            <div className="details-card">
-
-                <span className="details-id">
-                    TASK #{task.id}
-                </span>
-
-                <h1>
-                    {task.title}
-                </h1>
-
-
-                {/* Status */}
-                <div className="details-status">
-
-                    <span
-                        className={`status-badge ${
-                            task.status
-                                .toLowerCase()
-                                .replace(" ", "-")
-                        }`}
-                    >
-                        {task.status}
-                    </span>
-
-                </div>
-
-
-                {/* Description */}
-                <div className="details-section">
-
-                    <h3>
-                        Description
-                    </h3>
-
-                    <p>
-                        {task.description}
-                    </p>
-
-                </div>
-
-
-                {/* Information */}
-                <div className="details-info">
-
-                    <div>
-
-                        <span>
-                            Task ID
-                        </span>
-
-                        <strong>
-                            #{task.id}
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            Status
-                        </span>
-
-                        <strong>
-                            {task.status}
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div>
+            <h1>Task Details</h1>
+            <h2>{task.title}</h2>
+            <p>{task.description}</p>
+            <p>Status: {task.status}</p>
         </div>
     );
 }
-
 export default TaskDetails;
